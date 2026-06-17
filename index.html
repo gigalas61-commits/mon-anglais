@@ -1,0 +1,820 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#0E7C7B">
+<title>Mon Anglais — Vocabulaire & Conjugaison</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#FBF8F2; --surface:#FFFFFF; --surface2:#FFFCF6;
+  --ink:#232B33; --muted:#6E7C8C; --faint:#9AA6B2;
+  --teal:#0E7C7B; --teal-d:#0A5E5D; --teal-soft:#E3F1F0;
+  --coral:#EE6240; --coral-soft:#FCEAE3;
+  --amber:#F2B441; --amber-soft:#FCF1D8;
+  --line:#ECE4D6; --line2:#E4DCCB;
+  --shadow:0 1px 2px rgba(35,43,51,.05), 0 6px 18px rgba(35,43,51,.06);
+  --shadow-lg:0 8px 30px rgba(35,43,51,.12);
+  --r:18px; --r-sm:12px;
+  --disp:'Fraunces', Georgia, 'Times New Roman', serif;
+  --body:'Nunito', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+*{box-sizing:border-box; -webkit-tap-highlight-color:transparent}
+html,body{margin:0; padding:0}
+body{
+  background:var(--bg); color:var(--ink); font-family:var(--body);
+  font-size:16px; line-height:1.5; -webkit-font-smoothing:antialiased;
+  padding-bottom:env(safe-area-inset-bottom);
+}
+.wrap{max-width:920px; margin:0 auto; padding:0 14px}
+
+/* HEADER */
+header.top{
+  position:sticky; top:0; z-index:50; background:var(--bg);
+  padding-top:calc(env(safe-area-inset-top) + 10px);
+  border-bottom:1px solid var(--line);
+}
+.brand{display:flex; align-items:baseline; gap:10px; padding:2px 0 10px}
+.brand h1{
+  font-family:var(--disp); font-weight:700; font-size:24px; margin:0;
+  letter-spacing:-.01em; color:var(--teal-d);
+}
+.brand .dot{color:var(--coral)}
+.brand .count{margin-left:auto; font-size:12.5px; color:var(--muted); font-weight:700;
+  background:var(--surface); border:1px solid var(--line); padding:4px 10px; border-radius:999px}
+.searchbar{position:relative; margin-bottom:10px}
+.searchbar input{
+  width:100%; border:1.5px solid var(--line2); background:var(--surface);
+  border-radius:999px; padding:12px 16px 12px 42px; font-family:var(--body);
+  font-size:16px; color:var(--ink); outline:none; transition:border-color .15s, box-shadow .15s;
+}
+.searchbar input:focus{border-color:var(--teal); box-shadow:0 0 0 3px var(--teal-soft)}
+.searchbar .ic{position:absolute; left:15px; top:50%; transform:translateY(-50%); font-size:16px; opacity:.55}
+.searchbar .clr{position:absolute; right:8px; top:50%; transform:translateY(-50%);
+  border:none; background:var(--line); color:var(--ink); width:26px; height:26px; border-radius:50%;
+  font-size:15px; cursor:pointer; display:none}
+.searchbar .clr.show{display:block}
+
+/* TABS */
+nav.tabs{display:flex; gap:6px; padding:0 0 10px; overflow-x:auto; scrollbar-width:none}
+nav.tabs::-webkit-scrollbar{display:none}
+.tab{
+  flex:0 0 auto; border:1.5px solid var(--line2); background:var(--surface);
+  color:var(--muted); font-family:var(--body); font-weight:800; font-size:14px;
+  padding:9px 15px; border-radius:999px; cursor:pointer; display:flex; gap:7px; align-items:center;
+  transition:all .15s; white-space:nowrap;
+}
+.tab .em{font-size:15px}
+.tab[aria-selected="true"]{background:var(--teal); border-color:var(--teal); color:#fff; box-shadow:0 3px 10px rgba(14,124,123,.28)}
+
+/* CHIPS */
+.chips{display:flex; gap:7px; overflow-x:auto; padding:14px 0 4px; scrollbar-width:none}
+.chips::-webkit-scrollbar{display:none}
+.chip{
+  flex:0 0 auto; border:1.5px solid var(--line2); background:var(--surface);
+  color:var(--muted); font-weight:700; font-size:13px; padding:7px 13px; border-radius:999px;
+  cursor:pointer; white-space:nowrap; transition:all .12s;
+}
+.chip[aria-pressed="true"]{background:var(--coral-soft); border-color:var(--coral); color:var(--coral)}
+
+/* PAGES */
+main{padding:6px 0 90px}
+.page{display:none; animation:fade .25s ease}
+.page.active{display:block}
+@keyframes fade{from{opacity:0; transform:translateY(4px)}to{opacity:1; transform:none}}
+.sect-h{font-family:var(--disp); font-weight:600; font-size:15px; color:var(--muted);
+  margin:22px 2px 10px; display:flex; align-items:center; gap:8px}
+.sect-h::after{content:""; flex:1; height:1px; background:var(--line)}
+
+/* VOCAB GRID */
+.grid{display:grid; grid-template-columns:repeat(auto-fill, minmax(150px,1fr)); gap:10px}
+.wcard{
+  background:var(--surface); border:1.5px solid var(--line); border-radius:var(--r);
+  padding:14px 12px 12px; cursor:pointer; position:relative; text-align:left;
+  transition:transform .12s, box-shadow .12s, border-color .12s; box-shadow:var(--shadow);
+}
+.wcard:hover{transform:translateY(-2px); box-shadow:var(--shadow-lg); border-color:var(--teal-soft)}
+.wcard:active{transform:scale(.98)}
+.wcard .emo{font-size:30px; line-height:1; display:block; margin-bottom:8px}
+.wcard .en{font-weight:800; font-size:16.5px; color:var(--teal-d); letter-spacing:-.01em}
+.wcard .fr{font-size:13.5px; color:var(--muted); margin-top:2px; font-weight:600}
+.wcard .spk{position:absolute; top:10px; right:10px; font-size:14px; opacity:.4}
+.wcard:hover .spk{opacity:.8}
+
+/* VERBS */
+.vlist{display:flex; flex-direction:column; gap:8px}
+.vrow{background:var(--surface); border:1.5px solid var(--line); border-radius:var(--r-sm); box-shadow:var(--shadow); overflow:hidden}
+.vhead{display:flex; align-items:center; gap:12px; padding:13px 14px; cursor:pointer}
+.vhead .vb{font-weight:800; font-size:17px; color:var(--teal-d)}
+.vhead .vfr{color:var(--muted); font-size:14px; font-weight:600}
+.vhead .vfr .arrow{color:var(--faint); margin:0 6px}
+.badge{font-size:10.5px; font-weight:800; padding:3px 8px; border-radius:999px; text-transform:uppercase; letter-spacing:.03em}
+.badge.irr{background:var(--coral-soft); color:var(--coral)}
+.badge.reg{background:var(--teal-soft); color:var(--teal-d)}
+.vhead .chev{margin-left:auto; color:var(--faint); font-size:13px; transition:transform .2s; font-weight:800}
+.vrow.open .chev{transform:rotate(180deg)}
+.vbody{display:none; padding:0 14px 14px; border-top:1px solid var(--line)}
+.vrow.open .vbody{display:block}
+.principal{display:flex; flex-wrap:wrap; gap:6px; margin:12px 0}
+.pp{background:var(--surface2); border:1px solid var(--line2); border-radius:8px; padding:6px 10px; font-size:13px}
+.pp b{color:var(--ink); font-weight:800}
+.pp span{color:var(--faint); font-size:11px; display:block; font-weight:700; text-transform:uppercase; letter-spacing:.03em}
+.ctable{width:100%; border-collapse:collapse; margin-top:6px; font-size:14px}
+.ctable th{text-align:left; font-family:var(--disp); font-weight:600; font-size:13px; color:var(--coral);
+  padding:10px 6px 4px; border-bottom:1.5px solid var(--line2)}
+.ctable td{padding:7px 6px; border-bottom:1px solid var(--line); vertical-align:top}
+.ctable td.pron{color:var(--muted); font-weight:700; font-size:12.5px; width:78px}
+.ctable td.form{color:var(--ink); font-weight:600}
+.ctable td.form b{color:var(--teal-d); font-weight:800}
+.tense-spk{border:none; background:none; cursor:pointer; font-size:13px; opacity:.45; padding:2px 4px}
+.tense-spk:hover{opacity:.9}
+
+/* EXPRESSIONS */
+.elist{display:flex; flex-direction:column; gap:9px}
+.ecard{background:var(--surface); border:1.5px solid var(--line); border-radius:var(--r-sm);
+  padding:13px 14px; box-shadow:var(--shadow); display:flex; align-items:center; gap:13px; cursor:pointer; transition:transform .1s}
+.ecard:active{transform:scale(.99)}
+.ecard .eemo{font-size:24px; flex:0 0 auto}
+.ecard .etxt{flex:1; min-width:0}
+.ecard .een{font-weight:800; color:var(--teal-d); font-size:15.5px}
+.ecard .efr{color:var(--muted); font-size:13.5px; font-weight:600; margin-top:1px}
+.ecard .espk{font-size:15px; opacity:.4; flex:0 0 auto}
+
+/* FLASHCARDS */
+.fc-setup{background:var(--surface); border:1.5px solid var(--line); border-radius:var(--r); padding:18px; box-shadow:var(--shadow); margin-bottom:14px}
+.fc-setup label{display:block; font-weight:800; font-size:13px; color:var(--muted); margin-bottom:8px; text-transform:uppercase; letter-spacing:.03em}
+.fc-setup select{width:100%; padding:11px 13px; border:1.5px solid var(--line2); border-radius:10px; font-family:var(--body); font-size:15px; font-weight:700; color:var(--ink); background:var(--surface); margin-bottom:14px}
+.seg{display:flex; gap:6px; margin-bottom:14px}
+.seg button{flex:1; padding:10px; border:1.5px solid var(--line2); background:var(--surface); border-radius:10px; font-family:var(--body); font-weight:800; font-size:13.5px; color:var(--muted); cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--teal-soft); border-color:var(--teal); color:var(--teal-d)}
+.btn{width:100%; padding:14px; border:none; border-radius:12px; font-family:var(--body); font-weight:800; font-size:16px; cursor:pointer; background:var(--teal); color:#fff; box-shadow:0 4px 14px rgba(14,124,123,.3)}
+.btn:active{transform:scale(.99)}
+.fc-stage{display:none}
+.fc-stage.on{display:block}
+.fc-progress{display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; font-size:13px; font-weight:800; color:var(--muted)}
+.fc-bar{height:6px; background:var(--line); border-radius:99px; overflow:hidden; margin-bottom:16px}
+.fc-bar i{display:block; height:100%; background:var(--teal); border-radius:99px; transition:width .3s}
+.flashcard{
+  background:var(--surface); border:2px solid var(--line); border-radius:24px; min-height:230px;
+  display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center;
+  padding:30px 24px; cursor:pointer; box-shadow:var(--shadow-lg); position:relative; user-select:none;
+}
+.flashcard .femo{font-size:54px; margin-bottom:14px}
+.flashcard .fmain{font-family:var(--disp); font-weight:700; font-size:32px; color:var(--teal-d); letter-spacing:-.02em}
+.flashcard .fsub{margin-top:10px; font-size:17px; color:var(--muted); font-weight:700; min-height:24px}
+.flashcard .ftip{position:absolute; bottom:14px; font-size:12px; color:var(--faint); font-weight:700}
+.flashcard .fspk{position:absolute; top:14px; right:16px; font-size:18px; opacity:.5; border:none; background:none; cursor:pointer}
+.fc-actions{display:flex; gap:10px; margin-top:16px}
+.fc-actions button{flex:1; padding:14px; border:none; border-radius:12px; font-family:var(--body); font-weight:800; font-size:15px; cursor:pointer}
+.fc-actions .again{background:var(--coral-soft); color:var(--coral)}
+.fc-actions .know{background:var(--teal); color:#fff}
+.fc-done{text-align:center; padding:30px 20px}
+.fc-done .big{font-size:50px}
+.fc-done h3{font-family:var(--disp); font-size:24px; color:var(--teal-d); margin:10px 0 6px}
+.fc-done p{color:var(--muted); font-weight:600; margin:0 0 18px}
+
+.empty{text-align:center; color:var(--faint); padding:50px 20px; font-weight:700}
+.empty .be{font-size:40px; display:block; margin-bottom:10px}
+footer.foot{text-align:center; color:var(--faint); font-size:12px; font-weight:600; padding:24px 0 40px}
+@media(max-width:420px){
+  .grid{grid-template-columns:repeat(auto-fill, minmax(135px,1fr))}
+  .brand h1{font-size:21px}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important; transition:none!important}}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <div class="brand">
+      <h1>Mon Anglais<span class="dot">.</span></h1>
+      <span class="count" id="totalCount">…</span>
+    </div>
+    <div class="searchbar">
+      <span class="ic">🔎</span>
+      <input id="search" type="search" placeholder="Rechercher un mot, un verbe…" autocomplete="off" spellcheck="false">
+      <button class="clr" id="clearBtn" aria-label="Effacer">✕</button>
+    </div>
+    <nav class="tabs" id="tabs" role="tablist">
+      <button class="tab" role="tab" aria-selected="true" data-page="vocab"><span class="em">📚</span>Vocabulaire</button>
+      <button class="tab" role="tab" aria-selected="false" data-page="verbs"><span class="em">🔄</span>Verbes</button>
+      <button class="tab" role="tab" aria-selected="false" data-page="expr"><span class="em">💬</span>Expressions</button>
+      <button class="tab" role="tab" aria-selected="false" data-page="cards"><span class="em">🃏</span>Cartes</button>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+  <!-- VOCAB -->
+  <section class="page active" id="page-vocab">
+    <div class="chips" id="chips"></div>
+    <div id="vocabContent"></div>
+  </section>
+
+  <!-- VERBS -->
+  <section class="page" id="page-verbs">
+    <div class="vlist" id="verbsContent"></div>
+  </section>
+
+  <!-- EXPRESSIONS -->
+  <section class="page" id="page-expr">
+    <div id="exprContent"></div>
+  </section>
+
+  <!-- CARDS -->
+  <section class="page" id="page-cards">
+    <div class="fc-setup" id="fcSetup">
+      <label>Choisis un thème</label>
+      <select id="fcDeck"></select>
+      <label>Sens d'affichage</label>
+      <div class="seg" id="fcDir">
+        <button data-dir="en" aria-pressed="true">🇬🇧 Anglais → Français</button>
+        <button data-dir="fr" aria-pressed="false">🇫🇷 Français → Anglais</button>
+      </div>
+      <button class="btn" id="fcStart">Commencer les cartes 🎴</button>
+    </div>
+    <div class="fc-stage" id="fcStage">
+      <div class="fc-progress"><span id="fcPos">1 / 20</span><span id="fcKnown">✅ 0</span></div>
+      <div class="fc-bar"><i id="fcBar" style="width:0%"></i></div>
+      <div class="flashcard" id="flashcard">
+        <button class="fspk" id="fcSpk" aria-label="Écouter">🔊</button>
+        <div class="femo" id="fcEmo">🎴</div>
+        <div class="fmain" id="fcMain">—</div>
+        <div class="fsub" id="fcSub"></div>
+        <div class="ftip" id="fcTip">Touche la carte pour retourner</div>
+      </div>
+      <div class="fc-actions">
+        <button class="again" id="fcAgain">↻ À revoir</button>
+        <button class="know" id="fcKnowBtn">✓ Je sais</button>
+      </div>
+    </div>
+    <div class="fc-done" id="fcDone" style="display:none">
+      <div class="big">🎉</div>
+      <h3 id="fcDoneTitle">Bravo !</h3>
+      <p id="fcDoneMsg"></p>
+      <button class="btn" id="fcRestart">Recommencer</button>
+    </div>
+  </section>
+
+  <footer class="foot">Touche un mot pour l'entendre 🔊 · Conjugaisons générées automatiquement</footer>
+</main>
+
+<script>
+/* ====== DONNÉES VOCABULAIRE ======
+format: [anglais, français, emoji] */
+const VOCAB = {
+"Gens & Famille": [
+["family","la famille","👪"],["mother","la mère","👩"],["father","le père","👨"],["mom","maman","👩"],["dad","papa","👨"],["parent","le parent","🧑"],["son","le fils","👦"],["daughter","la fille","👧"],["child","l'enfant","🧒"],["children","les enfants","👨‍👩‍👧"],["baby","le bébé","👶"],["brother","le frère","👦"],["sister","la sœur","👧"],["husband","le mari","🤵"],["wife","la femme (épouse)","👰"],["grandfather","le grand-père","👴"],["grandmother","la grand-mère","👵"],["uncle","l'oncle","🧔"],["aunt","la tante","👩"],["cousin","le cousin","🧑"],["nephew","le neveu","👦"],["niece","la nièce","👧"],["friend","l'ami","🧑‍🤝‍🧑"],["neighbor","le voisin","🏘️"],["man","l'homme","👨"],["woman","la femme","👩"],["boy","le garçon","👦"],["girl","la fille","👧"],["people","les gens","👥"],["person","la personne","🧍"],["adult","l'adulte","🧑"],["teenager","l'adolescent","🧑"],["couple","le couple","💑"],["partner","le partenaire","🤝"],["boyfriend","le petit ami","👦"],["girlfriend","la petite amie","👧"],["name","le nom","🏷️"],["guest","l'invité","🙋"],["stranger","l'inconnu","❓"],["boss","le patron","💼"],["king","le roi","🤴"],["queen","la reine","👸"]
+],
+"Corps & Santé": [
+["body","le corps","🧍"],["head","la tête","🗣️"],["hair","les cheveux","💇"],["face","le visage","😊"],["eye","l'œil","👁️"],["ear","l'oreille","👂"],["nose","le nez","👃"],["mouth","la bouche","👄"],["tooth","la dent","🦷"],["tongue","la langue","👅"],["lip","la lèvre","💋"],["neck","le cou","🧣"],["shoulder","l'épaule","💪"],["arm","le bras","💪"],["hand","la main","✋"],["finger","le doigt","👆"],["thumb","le pouce","👍"],["nail","l'ongle","💅"],["chest","la poitrine","🫁"],["heart","le cœur","❤️"],["stomach","l'estomac","🫃"],["back","le dos","🔙"],["leg","la jambe","🦵"],["knee","le genou","🦵"],["foot","le pied","🦶"],["toe","l'orteil","🦶"],["skin","la peau","🖐️"],["bone","l'os","🦴"],["blood","le sang","🩸"],["brain","le cerveau","🧠"],["muscle","le muscle","💪"],["health","la santé","💊"],["doctor","le médecin","🧑‍⚕️"],["nurse","l'infirmier","👩‍⚕️"],["hospital","l'hôpital","🏥"],["medicine","le médicament","💊"],["pain","la douleur","🤕"],["headache","le mal de tête","🤕"],["fever","la fièvre","🤒"],["cold (illness)","le rhume","🤧"],["cough","la toux","😷"],["wound","la blessure","🩹"]
+],
+"Maison": [
+["house","la maison","🏠"],["home","le foyer","🏡"],["apartment","l'appartement","🏢"],["room","la pièce","🚪"],["bedroom","la chambre","🛏️"],["kitchen","la cuisine","🍳"],["bathroom","la salle de bain","🛁"],["living room","le salon","🛋️"],["wall","le mur","🧱"],["floor","le sol","🟫"],["ceiling","le plafond","⬜"],["roof","le toit","🏠"],["door","la porte","🚪"],["window","la fenêtre","🪟"],["stairs","l'escalier","🪜"],["garage","le garage","🚗"],["garden","le jardin","🌷"],["furniture","les meubles","🪑"],["table","la table","🪑"],["chair","la chaise","🪑"],["sofa","le canapé","🛋️"],["bed","le lit","🛏️"],["pillow","l'oreiller","🛌"],["blanket","la couverture","🛌"],["desk","le bureau","🖥️"],["shelf","l'étagère","📚"],["drawer","le tiroir","🗄️"],["closet","le placard","🚪"],["mirror","le miroir","🪞"],["lamp","la lampe","💡"],["light","la lumière","💡"],["clock","l'horloge","🕐"],["key","la clé","🔑"],["lock","la serrure","🔒"],["fridge","le réfrigérateur","🧊"],["oven","le four","🔥"],["stove","la cuisinière","🍳"],["microwave","le micro-ondes","📡"],["sink","l'évier","🚰"],["toilet","les toilettes","🚽"],["shower","la douche","🚿"],["towel","la serviette","🧻"],["soap","le savon","🧼"],["broom","le balai","🧹"],["trash","la poubelle","🗑️"],["plate","l'assiette","🍽️"],["bowl","le bol","🥣"],["cup","la tasse","☕"],["glass","le verre","🥛"],["fork","la fourchette","🍴"],["knife","le couteau","🔪"],["spoon","la cuillère","🥄"],["pot","la casserole","🍲"],["pan","la poêle","🍳"],["bottle","la bouteille","🍾"],["candle","la bougie","🕯️"],["curtain","le rideau","🪟"],["carpet","le tapis","🧶"],["heater","le chauffage","♨️"]
+],
+"Nourriture & Boisson": [
+["food","la nourriture","🍽️"],["water","l'eau","💧"],["bread","le pain","🍞"],["rice","le riz","🍚"],["pasta","les pâtes","🍝"],["meat","la viande","🥩"],["chicken","le poulet","🍗"],["beef","le bœuf","🥩"],["pork","le porc","🥓"],["fish","le poisson","🐟"],["egg","l'œuf","🥚"],["cheese","le fromage","🧀"],["milk","le lait","🥛"],["butter","le beurre","🧈"],["salt","le sel","🧂"],["pepper","le poivre","🌶️"],["sugar","le sucre","🍬"],["oil","l'huile","🛢️"],["soup","la soupe","🍲"],["salad","la salade","🥗"],["sandwich","le sandwich","🥪"],["pizza","la pizza","🍕"],["fruit","le fruit","🍎"],["apple","la pomme","🍎"],["banana","la banane","🍌"],["orange","l'orange","🍊"],["lemon","le citron","🍋"],["grape","le raisin","🍇"],["strawberry","la fraise","🍓"],["watermelon","la pastèque","🍉"],["pineapple","l'ananas","🍍"],["peach","la pêche","🍑"],["cherry","la cerise","🍒"],["vegetable","le légume","🥦"],["potato","la pomme de terre","🥔"],["tomato","la tomate","🍅"],["carrot","la carotte","🥕"],["onion","l'oignon","🧅"],["garlic","l'ail","🧄"],["corn","le maïs","🌽"],["mushroom","le champignon","🍄"],["lettuce","la laitue","🥬"],["cucumber","le concombre","🥒"],["bean","le haricot","🫘"],["nut","la noix","🥜"],["honey","le miel","🍯"],["jam","la confiture","🍓"],["cake","le gâteau","🍰"],["cookie","le biscuit","🍪"],["chocolate","le chocolat","🍫"],["candy","le bonbon","🍬"],["ice cream","la glace","🍦"],["coffee","le café","☕"],["tea","le thé","🍵"],["juice","le jus","🧃"],["wine","le vin","🍷"],["beer","la bière","🍺"],["breakfast","le petit-déjeuner","🥐"],["lunch","le déjeuner","🍱"],["dinner","le dîner","🍽️"],["meal","le repas","🍴"],["snack","le goûter","🍿"],["dessert","le dessert","🍮"],["hungry","avoir faim","😋"],["thirsty","avoir soif","🥤"],["delicious","délicieux","😋"],["sweet","sucré","🍭"],["sour","acide","🍋"],["spicy","épicé","🌶️"]
+],
+"Vêtements": [
+["clothes","les vêtements","👕"],["shirt","la chemise","👔"],["t-shirt","le tee-shirt","👕"],["pants","le pantalon","👖"],["jeans","le jean","👖"],["dress","la robe","👗"],["skirt","la jupe","👗"],["jacket","la veste","🧥"],["coat","le manteau","🧥"],["sweater","le pull","🧶"],["shorts","le short","🩳"],["socks","les chaussettes","🧦"],["shoes","les chaussures","👟"],["boots","les bottes","👢"],["sneakers","les baskets","👟"],["hat","le chapeau","🎩"],["cap","la casquette","🧢"],["scarf","l'écharpe","🧣"],["gloves","les gants","🧤"],["belt","la ceinture","➰"],["tie","la cravate","👔"],["glasses","les lunettes","👓"],["watch","la montre","⌚"],["ring","la bague","💍"],["bag","le sac","👜"],["backpack","le sac à dos","🎒"],["wallet","le portefeuille","👛"],["umbrella","le parapluie","☂️"],["pocket","la poche","👖"],["button","le bouton","🔘"],["pajamas","le pyjama","🩲"],["swimsuit","le maillot de bain","🩱"],["uniform","l'uniforme","👮"]
+],
+"Nature & Météo": [
+["nature","la nature","🌿"],["sun","le soleil","☀️"],["moon","la lune","🌙"],["star","l'étoile","⭐"],["sky","le ciel","🌌"],["cloud","le nuage","☁️"],["rain","la pluie","🌧️"],["snow","la neige","❄️"],["wind","le vent","💨"],["storm","la tempête","⛈️"],["thunder","le tonnerre","🌩️"],["lightning","l'éclair","⚡"],["fog","le brouillard","🌫️"],["ice","la glace","🧊"],["fire","le feu","🔥"],["earth","la terre","🌍"],["world","le monde","🌎"],["air","l'air","🌬️"],["water","l'eau","💧"],["sea","la mer","🌊"],["ocean","l'océan","🌊"],["lake","le lac","🏞️"],["river","la rivière","🏞️"],["beach","la plage","🏖️"],["sand","le sable","🏜️"],["mountain","la montagne","⛰️"],["hill","la colline","🌄"],["valley","la vallée","🏞️"],["forest","la forêt","🌲"],["tree","l'arbre","🌳"],["leaf","la feuille","🍃"],["flower","la fleur","🌸"],["grass","l'herbe","🌱"],["plant","la plante","🪴"],["rose","la rose","🌹"],["wood","le bois","🪵"],["stone","la pierre","🪨"],["rock","le rocher","🪨"],["mud","la boue","🟤"],["desert","le désert","🏜️"],["island","l'île","🏝️"],["weather","le temps (météo)","🌤️"],["hot","chaud","🥵"],["cold","froid","🥶"],["warm","tiède","🌡️"],["cool","frais","😎"],["dry","sec","🏜️"],["wet","mouillé","💧"],["sunny","ensoleillé","☀️"],["rainy","pluvieux","🌧️"],["windy","venteux","💨"],["cloudy","nuageux","☁️"],["spring","le printemps","🌷"],["summer","l'été","☀️"],["autumn","l'automne","🍂"],["winter","l'hiver","❄️"],["season","la saison","🍃"]
+],
+"Animaux": [
+["animal","l'animal","🐾"],["dog","le chien","🐕"],["cat","le chat","🐈"],["bird","l'oiseau","🐦"],["fish","le poisson","🐟"],["horse","le cheval","🐴"],["cow","la vache","🐄"],["pig","le cochon","🐖"],["sheep","le mouton","🐑"],["goat","la chèvre","🐐"],["chicken","la poule","🐔"],["duck","le canard","🦆"],["rabbit","le lapin","🐇"],["mouse","la souris","🐁"],["rat","le rat","🐀"],["lion","le lion","🦁"],["tiger","le tigre","🐅"],["bear","l'ours","🐻"],["elephant","l'éléphant","🐘"],["monkey","le singe","🐒"],["giraffe","la girafe","🦒"],["zebra","le zèbre","🦓"],["wolf","le loup","🐺"],["fox","le renard","🦊"],["deer","le cerf","🦌"],["snake","le serpent","🐍"],["frog","la grenouille","🐸"],["turtle","la tortue","🐢"],["crocodile","le crocodile","🐊"],["fly","la mouche","🪰"],["bee","l'abeille","🐝"],["ant","la fourmi","🐜"],["spider","l'araignée","🕷️"],["butterfly","le papillon","🦋"],["mosquito","le moustique","🦟"],["shark","le requin","🦈"],["whale","la baleine","🐋"],["dolphin","le dauphin","🐬"],["octopus","la pieuvre","🐙"],["crab","le crabe","🦀"],["owl","le hibou","🦉"],["eagle","l'aigle","🦅"],["penguin","le pingouin","🐧"],["dragon","le dragon","🐉"],["dinosaur","le dinosaure","🦖"],["pet","l'animal de compagnie","🐾"],["wing","l'aile","🪽"],["tail","la queue","🐈"],["feather","la plume","🪶"],["egg","l'œuf","🥚"]
+],
+"Ville & Lieux": [
+["city","la ville","🏙️"],["town","la ville (petite)","🏘️"],["village","le village","🏡"],["street","la rue","🛣️"],["road","la route","🛤️"],["bridge","le pont","🌉"],["building","le bâtiment","🏢"],["school","l'école","🏫"],["university","l'université","🎓"],["library","la bibliothèque","📚"],["hospital","l'hôpital","🏥"],["bank","la banque","🏦"],["store","le magasin","🏪"],["shop","la boutique","🛍️"],["market","le marché","🛒"],["supermarket","le supermarché","🛒"],["mall","le centre commercial","🏬"],["restaurant","le restaurant","🍽️"],["café","le café","☕"],["hotel","l'hôtel","🏨"],["airport","l'aéroport","✈️"],["station","la gare","🚉"],["museum","le musée","🏛️"],["park","le parc","🏞️"],["zoo","le zoo","🦁"],["church","l'église","⛪"],["office","le bureau","🏢"],["factory","l'usine","🏭"],["farm","la ferme","🚜"],["prison","la prison","🔒"],["police station","le commissariat","🚓"],["fire station","la caserne","🚒"],["pharmacy","la pharmacie","💊"],["bakery","la boulangerie","🥖"],["gym","la salle de sport","🏋️"],["stadium","le stade","🏟️"],["theater","le théâtre","🎭"],["cinema","le cinéma","🎬"],["beach","la plage","🏖️"],["square","la place","⬛"],["corner","le coin","📐"],["center","le centre","🎯"],["place","l'endroit","📍"],["address","l'adresse","🏠"],["country","le pays","🌍"],["map","la carte","🗺️"],["flag","le drapeau","🚩"],["border","la frontière","🛂"],["sidewalk","le trottoir","🚶"],["fountain","la fontaine","⛲"]
+],
+"Transport": [
+["car","la voiture","🚗"],["bus","le bus","🚌"],["train","le train","🚆"],["plane","l'avion","✈️"],["boat","le bateau","⛵"],["ship","le navire","🚢"],["bike","le vélo","🚲"],["motorcycle","la moto","🏍️"],["truck","le camion","🚚"],["taxi","le taxi","🚕"],["subway","le métro","🚇"],["helicopter","l'hélicoptère","🚁"],["rocket","la fusée","🚀"],["wheel","la roue","🛞"],["engine","le moteur","⚙️"],["ticket","le billet","🎫"],["seat","le siège","💺"],["driver","le conducteur","🧑‍✈️"],["passenger","le passager","🧳"],["traffic","la circulation","🚦"],["traffic light","le feu","🚥"],["parking","le parking","🅿️"],["gas","l'essence","⛽"],["road","la route","🛣️"],["trip","le voyage","🧳"],["journey","le trajet","🗺️"],["speed","la vitesse","💨"],["fuel","le carburant","⛽"],["sail","la voile","⛵"],["anchor","l'ancre","⚓"]
+],
+"Travail & École": [
+["work","le travail","💼"],["job","l'emploi","🧑‍💼"],["school","l'école","🏫"],["student","l'étudiant","🧑‍🎓"],["teacher","le professeur","🧑‍🏫"],["class","la classe","👨‍🏫"],["lesson","la leçon","📖"],["homework","les devoirs","📝"],["exam","l'examen","🧾"],["test","le test","✅"],["grade","la note","💯"],["book","le livre","📕"],["notebook","le cahier","📓"],["pen","le stylo","🖊️"],["pencil","le crayon","✏️"],["paper","le papier","📄"],["eraser","la gomme","🧼"],["ruler","la règle","📏"],["scissors","les ciseaux","✂️"],["glue","la colle","🧴"],["bag","le cartable","🎒"],["board","le tableau","🖼️"],["chalk","la craie","🖍️"],["desk","le pupitre","🪑"],["question","la question","❓"],["answer","la réponse","💡"],["word","le mot","🔤"],["letter","la lettre","🔡"],["number","le nombre","🔢"],["math","les maths","➗"],["science","la science","🔬"],["history","l'histoire","📜"],["geography","la géographie","🗺️"],["language","la langue","🗣️"],["art","l'art","🎨"],["music","la musique","🎵"],["sport","le sport","⚽"],["library","la bibliothèque","📚"],["meeting","la réunion","🤝"],["project","le projet","📊"],["company","l'entreprise","🏢"],["office","le bureau","🏢"],["money","l'argent","💰"],["salary","le salaire","💵"],["career","la carrière","📈"],["worker","le travailleur","👷"],["manager","le gestionnaire","👔"],["colleague","le collègue","🤝"],["customer","le client","🛍️"],["business","les affaires","💼"],["idea","l'idée","💡"],["plan","le plan","🗂️"],["goal","l'objectif","🎯"],["skill","la compétence","🛠️"],["effort","l'effort","💪"]
+],
+"Métiers": [
+["doctor","le médecin","🧑‍⚕️"],["nurse","l'infirmier","👩‍⚕️"],["teacher","l'enseignant","🧑‍🏫"],["engineer","l'ingénieur","👷"],["lawyer","l'avocat","⚖️"],["police officer","le policier","👮"],["firefighter","le pompier","🧑‍🚒"],["soldier","le soldat","🪖"],["farmer","l'agriculteur","🧑‍🌾"],["cook","le cuisinier","🧑‍🍳"],["chef","le chef","👨‍🍳"],["waiter","le serveur","🧑‍🍳"],["driver","le chauffeur","🚗"],["pilot","le pilote","🧑‍✈️"],["artist","l'artiste","🧑‍🎨"],["singer","le chanteur","🎤"],["actor","l'acteur","🎭"],["writer","l'écrivain","✍️"],["scientist","le scientifique","🔬"],["dentist","le dentiste","🦷"],["plumber","le plombier","🔧"],["carpenter","le menuisier","🪚"],["electrician","l'électricien","💡"],["mechanic","le mécanicien","🔧"],["barber","le coiffeur","💈"],["tailor","le tailleur","🧵"],["banker","le banquier","🏦"],["accountant","le comptable","🧮"],["journalist","le journaliste","📰"],["photographer","le photographe","📷"],["programmer","le programmeur","💻"],["athlete","l'athlète","🏃"],["judge","le juge","⚖️"],["president","le président","🎖️"]
+],
+"Technologie": [
+["phone","le téléphone","📱"],["computer","l'ordinateur","💻"],["laptop","l'ordinateur portable","💻"],["tablet","la tablette","📱"],["screen","l'écran","🖥️"],["keyboard","le clavier","⌨️"],["mouse","la souris","🖱️"],["camera","l'appareil photo","📷"],["internet","l'internet","🌐"],["website","le site web","🌐"],["email","le courriel","📧"],["message","le message","💬"],["password","le mot de passe","🔑"],["app","l'application","📲"],["file","le fichier","📁"],["folder","le dossier","📂"],["button","le bouton","🔘"],["battery","la batterie","🔋"],["charger","le chargeur","🔌"],["cable","le câble","🔌"],["headphones","le casque","🎧"],["speaker","l'enceinte","🔊"],["printer","l'imprimante","🖨️"],["robot","le robot","🤖"],["game","le jeu","🎮"],["video","la vidéo","📹"],["photo","la photo","📸"],["network","le réseau","📶"],["signal","le signal","📶"],["data","les données","💾"],["code","le code","👨‍💻"],["click","le clic","🖱️"],["link","le lien","🔗"],["download","le téléchargement","⬇️"]
+],
+"Temps & Calendrier": [
+["time","le temps","⏰"],["hour","l'heure","🕐"],["minute","la minute","⏱️"],["second","la seconde","⏲️"],["day","le jour","📅"],["week","la semaine","🗓️"],["month","le mois","📆"],["year","l'année","🗓️"],["today","aujourd'hui","📍"],["tomorrow","demain","➡️"],["yesterday","hier","⬅️"],["morning","le matin","🌅"],["afternoon","l'après-midi","🌤️"],["evening","le soir","🌆"],["night","la nuit","🌙"],["noon","midi","🕛"],["midnight","minuit","🌌"],["now","maintenant","⏳"],["soon","bientôt","⏩"],["late","tard","🕚"],["early","tôt","🌄"],["Monday","lundi","1️⃣"],["Tuesday","mardi","2️⃣"],["Wednesday","mercredi","3️⃣"],["Thursday","jeudi","4️⃣"],["Friday","vendredi","5️⃣"],["Saturday","samedi","6️⃣"],["Sunday","dimanche","7️⃣"],["January","janvier","❄️"],["February","février","💝"],["March","mars","🌬️"],["April","avril","🌧️"],["May","mai","🌷"],["June","juin","☀️"],["July","juillet","🏖️"],["August","août","🌞"],["September","septembre","🍂"],["October","octobre","🎃"],["November","novembre","🍁"],["December","décembre","🎄"],["weekend","le week-end","🎉"],["holiday","les vacances","🏝️"],["birthday","l'anniversaire","🎂"],["date","la date","📅"],["calendar","le calendrier","📆"],["future","le futur","🔮"],["past","le passé","⏮️"],["moment","le moment","⏳"]
+],
+"Nombres & Quantité": [
+["number","le nombre","🔢"],["zero","zéro","0️⃣"],["one","un","1️⃣"],["two","deux","2️⃣"],["three","trois","3️⃣"],["four","quatre","4️⃣"],["five","cinq","5️⃣"],["six","six","6️⃣"],["seven","sept","7️⃣"],["eight","huit","8️⃣"],["nine","neuf","9️⃣"],["ten","dix","🔟"],["hundred","cent","💯"],["thousand","mille","🔢"],["million","un million","🔢"],["first","premier","🥇"],["second","deuxième","🥈"],["third","troisième","🥉"],["half","la moitié","½"],["double","le double","✖️"],["many","beaucoup","🔢"],["few","peu","🤏"],["more","plus","➕"],["less","moins","➖"],["all","tout","💯"],["some","quelques","🔸"],["none","aucun","🚫"],["each","chaque","🔹"],["enough","assez","👌"],["part","la partie","🧩"],["piece","le morceau","🧩"],["pair","la paire","👯"],["dozen","la douzaine","🥚"],["group","le groupe","👥"]
+],
+"Émotions & Sentiments": [
+["happy","heureux","😊"],["sad","triste","😢"],["angry","en colère","😠"],["afraid","effrayé","😨"],["scared","apeuré","😱"],["surprised","surpris","😲"],["tired","fatigué","😴"],["bored","ennuyé","😑"],["excited","excité","🤩"],["nervous","nerveux","😬"],["worried","inquiet","😟"],["calm","calme","😌"],["proud","fier","😤"],["shy","timide","😳"],["jealous","jaloux","😒"],["lonely","seul","😔"],["confused","confus","😕"],["hopeful","plein d'espoir","🙏"],["grateful","reconnaissant","🙇"],["love","l'amour","❤️"],["hate","la haine","💔"],["joy","la joie","😄"],["fear","la peur","😱"],["anger","la colère","🤬"],["hope","l'espoir","🌟"],["dream","le rêve","💭"],["smile","le sourire","😄"],["laugh","le rire","😂"],["cry","les pleurs","😭"],["feeling","le sentiment","💗"],["mood","l'humeur","🎭"],["stress","le stress","😫"],["comfort","le réconfort","🤗"],["fun","le plaisir","🎉"],["luck","la chance","🍀"],["peace","la paix","☮️"],["trust","la confiance","🤝"],["courage","le courage","🦁"],["patience","la patience","⏳"],["sorry","désolé","🙏"],["thanks","merci","🙏"],["please","s'il vous plaît","🥺"],["glad","content","😊"],["upset","contrarié","😞"],["relax","se détendre","🧘"]
+],
+"Adjectifs": [
+["good","bon","👍"],["bad","mauvais","👎"],["big","grand","🐘"],["small","petit","🐜"],["long","long","📏"],["short","court","✂️"],["tall","grand (taille)","🦒"],["high","haut","⬆️"],["low","bas","⬇️"],["new","nouveau","🆕"],["old","vieux","👴"],["young","jeune","👶"],["fast","rapide","🏃"],["slow","lent","🐌"],["easy","facile","✅"],["hard","difficile","🧗"],["strong","fort","💪"],["weak","faible","🍃"],["heavy","lourd","🏋️"],["light","léger","🪶"],["full","plein","🍶"],["empty","vide","🕳️"],["open","ouvert","🔓"],["closed","fermé","🔒"],["clean","propre","✨"],["dirty","sale","🧹"],["rich","riche","💰"],["poor","pauvre","🪙"],["happy","heureux","😊"],["sad","triste","😢"],["beautiful","beau","🌸"],["ugly","laid","🥴"],["pretty","joli","💐"],["nice","gentil","😊"],["kind","aimable","💝"],["mean","méchant","😠"],["funny","drôle","😂"],["serious","sérieux","🧐"],["important","important","❗"],["true","vrai","✔️"],["false","faux","❌"],["right","correct","✅"],["wrong","faux/incorrect","❌"],["same","pareil","🟰"],["different","différent","🔀"],["expensive","cher","💸"],["cheap","bon marché","🪙"],["free","gratuit","🆓"],["safe","sûr","🛡️"],["dangerous","dangereux","⚠️"],["loud","bruyant","📢"],["quiet","silencieux","🤫"],["bright","lumineux","🔆"],["dark","sombre","🌑"],["soft","doux","🧸"],["sharp","tranchant","🔪"],["smooth","lisse","🪞"],["rough","rugueux","🪨"],["sweet","sucré","🍬"],["bitter","amer","☕"],["fresh","frais","🥬"],["ready","prêt","✅"],["busy","occupé","📅"],["lazy","paresseux","🦥"],["smart","intelligent","🧠"],["stupid","bête","🙃"],["famous","célèbre","🌟"],["normal","normal","➖"],["strange","étrange","👽"],["possible","possible","✔️"],["careful","prudent","⚠️"],["healthy","en bonne santé","🥗"],["sick","malade","🤒"],["hungry","affamé","🍽️"],["thirsty","assoiffé","🥤"],["wet","mouillé","💧"],["dry","sec","🌵"],["deep","profond","🌊"],["wide","large","↔️"],["narrow","étroit","🚪"],["thick","épais","📚"],["thin","mince","📄"]
+],
+"Adverbes & Fréquence": [
+["always","toujours","♾️"],["never","jamais","🚫"],["often","souvent","🔁"],["sometimes","parfois","🔸"],["usually","habituellement","📊"],["rarely","rarement","🌙"],["now","maintenant","⏰"],["then","ensuite","➡️"],["here","ici","📍"],["there","là","👉"],["everywhere","partout","🌍"],["very","très","💯"],["too","trop","⚠️"],["so","tellement","💫"],["really","vraiment","❗"],["quite","assez","👌"],["almost","presque","🤏"],["just","juste","✨"],["only","seulement","1️⃣"],["also","aussi","➕"],["again","encore","🔄"],["already","déjà","✔️"],["still","encore (toujours)","⏳"],["yet","pas encore","⏳"],["soon","bientôt","⏩"],["fast","vite","🏃"],["slowly","lentement","🐌"],["well","bien","👍"],["badly","mal","👎"],["together","ensemble","🤝"],["alone","seul","🧍"],["maybe","peut-être","🤷"],["of course","bien sûr","✅"],["probably","probablement","📈"],["suddenly","soudain","⚡"],["finally","enfin","🏁"],["nearly","presque","🤏"],["mostly","surtout","📊"],["somewhere","quelque part","📌"],["nowhere","nulle part","🚫"],["far","loin","🛣️"],["near","près","📍"],["up","en haut","⬆️"],["down","en bas","⬇️"],["inside","à l'intérieur","📥"],["outside","à l'extérieur","📤"],["away","au loin","🏃"],["back","en arrière","🔙"],["forward","en avant","⏩"]
+],
+"Actions courantes": [
+["go","aller","🚶"],["come","venir","🚶"],["walk","marcher","🚶"],["run","courir","🏃"],["jump","sauter","🤸"],["sit","s'asseoir","🪑"],["stand","se tenir debout","🧍"],["sleep","dormir","😴"],["wake up","se réveiller","⏰"],["eat","manger","🍽️"],["drink","boire","🥤"],["cook","cuisiner","🍳"],["open","ouvrir","🔓"],["close","fermer","🔒"],["read","lire","📖"],["write","écrire","✍️"],["draw","dessiner","🎨"],["sing","chanter","🎤"],["dance","danser","💃"],["play","jouer","🎮"],["listen","écouter","👂"],["watch","regarder","👀"],["look","regarder","👁️"],["see","voir","👁️"],["hear","entendre","👂"],["speak","parler","🗣️"],["talk","discuter","💬"],["say","dire","💬"],["tell","raconter","🗨️"],["ask","demander","❓"],["answer","répondre","💡"],["learn","apprendre","🎓"],["teach","enseigner","🧑‍🏫"],["study","étudier","📚"],["think","penser","🤔"],["know","savoir","🧠"],["understand","comprendre","💡"],["remember","se souvenir","🧠"],["forget","oublier","🌀"],["buy","acheter","🛒"],["sell","vendre","💰"],["pay","payer","💳"],["give","donner","🎁"],["take","prendre","✋"],["bring","apporter","📦"],["carry","porter","🎒"],["hold","tenir","🤲"],["put","mettre","📥"],["throw","jeter","🤾"],["catch","attraper","🧤"],["push","pousser","👐"],["pull","tirer","🪢"],["cut","couper","✂️"],["break","casser","💥"],["fix","réparer","🔧"],["build","construire","🏗️"],["make","faire/fabriquer","🛠️"],["clean","nettoyer","🧹"],["wash","laver","🧼"],["help","aider","🤝"],["work","travailler","💼"],["rest","se reposer","🛌"],["start","commencer","🚦"],["stop","arrêter","🛑"],["finish","terminer","🏁"],["win","gagner","🏆"],["lose","perdre","💔"],["try","essayer","🎯"],["wait","attendre","⏳"],["call","appeler","📞"],["meet","rencontrer","🤝"],["love","aimer","❤️"],["like","apprécier","👍"],["want","vouloir","🙋"],["need","avoir besoin","🆘"],["live","vivre","🏠"],["die","mourir","⚰️"],["grow","grandir","🌱"],["change","changer","🔄"],["move","bouger","➡️"],["turn","tourner","↩️"],["drive","conduire","🚗"],["fly","voler","✈️"],["swim","nager","🏊"],["climb","grimper","🧗"],["fall","tomber","🪂"],["smile","sourire","😄"],["laugh","rire","😂"],["cry","pleurer","😭"],["kiss","embrasser","💋"],["hug","serrer dans ses bras","🤗"],["wear","porter (vêtement)","👕"],["choose","choisir","✅"],["follow","suivre","👣"],["lead","mener","🧭"],["show","montrer","👉"],["hide","cacher","🙈"],["find","trouver","🔍"],["search","chercher","🔎"],["count","compter","🔢"]
+],
+"Mots essentiels": [
+["I","je","🙋"],["you","tu/vous","👉"],["he","il","👨"],["she","elle","👩"],["it","cela","📦"],["we","nous","👥"],["they","ils/elles","👫"],["this","ceci","👇"],["that","cela","👉"],["here","ici","📍"],["there","là-bas","🗺️"],["who","qui","🤔"],["what","quoi","❓"],["where","où","📍"],["when","quand","🕐"],["why","pourquoi","❔"],["how","comment","🛠️"],["which","lequel","🔀"],["yes","oui","✅"],["no","non","❌"],["not","ne...pas","🚫"],["and","et","➕"],["or","ou","🔀"],["but","mais","↪️"],["with","avec","🤝"],["without","sans","🚫"],["for","pour","🎯"],["from","de (provenance)","📤"],["to","vers/à","🎯"],["in","dans","📥"],["on","sur","⬆️"],["under","sous","⬇️"],["over","au-dessus","🔝"],["between","entre","↔️"],["behind","derrière","🔙"],["in front of","devant","⏩"],["next to","à côté de","↔️"],["near","près de","📍"],["before","avant","⏮️"],["after","après","⏭️"],["because","parce que","💬"],["if","si","🔀"],["very","très","💯"],["more","plus","➕"],["my","mon/ma","🙋"],["your","ton/votre","👉"],["his","son (à lui)","👨"],["her","son (à elle)","👩"],["our","notre","👥"],["their","leur","👫"],["everything","tout","🌍"],["nothing","rien","🕳️"],["someone","quelqu'un","🧍"],["nobody","personne","🚷"],["something","quelque chose","📦"],["everyone","tout le monde","👨‍👩‍👧‍👦"]
+],
+"Expressions courantes": [
+["Hello","Bonjour","👋"],["Hi","Salut","🙋"],["Good morning","Bonjour (matin)","🌅"],["Good evening","Bonsoir","🌆"],["Good night","Bonne nuit","🌙"],["Goodbye","Au revoir","👋"],["See you later","À plus tard","👀"],["How are you?","Comment vas-tu ?","🤔"],["I'm fine","Je vais bien","😊"],["Thank you","Merci","🙏"],["You're welcome","De rien","🤗"],["Please","S'il vous plaît","🥺"],["Excuse me","Excusez-moi","🙇"],["I'm sorry","Je suis désolé","😞"],["Yes, please","Oui, merci","✅"],["No, thanks","Non, merci","🙅"],["Nice to meet you","Enchanté","🤝"],["What's your name?","Comment t'appelles-tu ?","🏷️"],["My name is...","Je m'appelle...","✍️"],["How old are you?","Quel âge as-tu ?","🎂"],["Where are you from?","D'où viens-tu ?","🌍"],["I don't understand","Je ne comprends pas","😕"],["Can you help me?","Pouvez-vous m'aider ?","🆘"],["I don't know","Je ne sais pas","🤷"],["What time is it?","Quelle heure est-il ?","🕐"],["How much is it?","Combien ça coûte ?","💰"],["I would like...","Je voudrais...","🙋"],["Where is...?","Où est... ?","📍"],["Can I...?","Puis-je... ?","🙏"],["Of course","Bien sûr","👍"],["No problem","Pas de problème","😎"],["Be careful","Fais attention","⚠️"],["Good luck","Bonne chance","🍀"],["Congratulations","Félicitations","🎉"],["Happy birthday","Joyeux anniversaire","🎂"],["I love you","Je t'aime","❤️"],["Let's go","Allons-y","🚀"],["Wait a minute","Attends une minute","⏳"],["I'm hungry","J'ai faim","🍽️"],["I'm tired","Je suis fatigué","😴"],["I agree","Je suis d'accord","🤝"],["I think so","Je pense que oui","💭"],["Maybe","Peut-être","🤔"],["Speak slowly, please","Parlez lentement","🐌"],["Can you repeat?","Pouvez-vous répéter ?","🔁"],["See you tomorrow","À demain","📅"],["Take care","Prends soin de toi","🤗"],["Welcome","Bienvenue","🎊"],["Cheers!","Santé !","🥂"],["What's up?","Quoi de neuf ?","😎"]
+]
+};
+
+/* [base, 3e pers (he/she/it), -ing, prétérit, participe passé, français, irrégulier(1/0)] */
+const VERBS = [
+["be","is","being","was","been","être",1],
+["have","has","having","had","had","avoir",1],
+["do","does","doing","did","done","faire",1],
+["say","says","saying","said","said","dire",1],
+["go","goes","going","went","gone","aller",1],
+["get","gets","getting","got","gotten","obtenir",1],
+["make","makes","making","made","made","fabriquer / faire",1],
+["know","knows","knowing","knew","known","savoir / connaître",1],
+["think","thinks","thinking","thought","thought","penser",1],
+["take","takes","taking","took","taken","prendre",1],
+["see","sees","seeing","saw","seen","voir",1],
+["come","comes","coming","came","come","venir",1],
+["want","wants","wanting","wanted","wanted","vouloir",0],
+["look","looks","looking","looked","looked","regarder",0],
+["use","uses","using","used","used","utiliser",0],
+["find","finds","finding","found","found","trouver",1],
+["give","gives","giving","gave","given","donner",1],
+["tell","tells","telling","told","told","raconter / dire",1],
+["work","works","working","worked","worked","travailler",0],
+["call","calls","calling","called","called","appeler",0],
+["try","tries","trying","tried","tried","essayer",0],
+["ask","asks","asking","asked","asked","demander",0],
+["need","needs","needing","needed","needed","avoir besoin",0],
+["feel","feels","feeling","felt","felt","ressentir",1],
+["become","becomes","becoming","became","become","devenir",1],
+["leave","leaves","leaving","left","left","partir / quitter",1],
+["put","puts","putting","put","put","mettre / poser",1],
+["mean","means","meaning","meant","meant","signifier / vouloir dire",1],
+["keep","keeps","keeping","kept","kept","garder",1],
+["let","lets","letting","let","let","laisser / permettre",1],
+["begin","begins","beginning","began","begun","commencer",1],
+["seem","seems","seeming","seemed","seemed","sembler",0],
+["help","helps","helping","helped","helped","aider",0],
+["show","shows","showing","showed","shown","montrer",1],
+["hear","hears","hearing","heard","heard","entendre",1],
+["play","plays","playing","played","played","jouer",0],
+["run","runs","running","ran","run","courir",1],
+["move","moves","moving","moved","moved","bouger / déménager",0],
+["like","likes","liking","liked","liked","aimer (bien)",0],
+["live","lives","living","lived","lived","vivre / habiter",0],
+["believe","believes","believing","believed","believed","croire",0],
+["hold","holds","holding","held","held","tenir",1],
+["bring","brings","bringing","brought","brought","apporter",1],
+["happen","happens","happening","happened","happened","arriver / se produire",0],
+["write","writes","writing","wrote","written","écrire",1],
+["provide","provides","providing","provided","provided","fournir",0],
+["sit","sits","sitting","sat","sat","s'asseoir",1],
+["stand","stands","standing","stood","stood","se tenir debout",1],
+["lose","loses","losing","lost","lost","perdre",1],
+["pay","pays","paying","paid","paid","payer",1],
+["meet","meets","meeting","met","met","rencontrer",1],
+["include","includes","including","included","included","inclure",0],
+["continue","continues","continuing","continued","continued","continuer",0],
+["set","sets","setting","set","set","poser / régler",1],
+["learn","learns","learning","learned","learned","apprendre",0],
+["change","changes","changing","changed","changed","changer",0],
+["lead","leads","leading","led","led","mener / diriger",1],
+["understand","understands","understanding","understood","understood","comprendre",1],
+["watch","watches","watching","watched","watched","regarder",0],
+["follow","follows","following","followed","followed","suivre",0],
+["stop","stops","stopping","stopped","stopped","arrêter",0],
+["create","creates","creating","created","created","créer",0],
+["speak","speaks","speaking","spoke","spoken","parler",1],
+["read","reads","reading","read","read","lire",1],
+["spend","spends","spending","spent","spent","dépenser / passer",1],
+["grow","grows","growing","grew","grown","grandir / pousser",1],
+["open","opens","opening","opened","opened","ouvrir",0],
+["walk","walks","walking","walked","walked","marcher",0],
+["win","wins","winning","won","won","gagner",1],
+["teach","teaches","teaching","taught","taught","enseigner",1],
+["offer","offers","offering","offered","offered","offrir / proposer",0],
+["remember","remembers","remembering","remembered","remembered","se souvenir",0],
+["consider","considers","considering","considered","considered","considérer",0],
+["appear","appears","appearing","appeared","appeared","apparaître",0],
+["buy","buys","buying","bought","bought","acheter",1],
+["serve","serves","serving","served","served","servir",0],
+["send","sends","sending","sent","sent","envoyer",1],
+["build","builds","building","built","built","construire",1],
+["stay","stays","staying","stayed","stayed","rester",0],
+["fall","falls","falling","fell","fallen","tomber",1],
+["cut","cuts","cutting","cut","cut","couper",1],
+["reach","reaches","reaching","reached","reached","atteindre",0],
+["kill","kills","killing","killed","killed","tuer",0],
+["remain","remains","remaining","remained","remained","rester / demeurer",0],
+["eat","eats","eating","ate","eaten","manger",1],
+["drink","drinks","drinking","drank","drunk","boire",1],
+["sleep","sleeps","sleeping","slept","slept","dormir",1],
+["drive","drives","driving","drove","driven","conduire",1],
+["fly","flies","flying","flew","flown","voler",1],
+["swim","swims","swimming","swam","swum","nager",1],
+["sing","sings","singing","sang","sung","chanter",1],
+["dance","dances","dancing","danced","danced","danser",0],
+["wash","washes","washing","washed","washed","laver",0],
+["cook","cooks","cooking","cooked","cooked","cuisiner",0],
+["wait","waits","waiting","waited","waited","attendre",0],
+["close","closes","closing","closed","closed","fermer",0],
+["start","starts","starting","started","started","commencer",0],
+["finish","finishes","finishing","finished","finished","terminer",0],
+["love","loves","loving","loved","loved","aimer",0],
+["save","saves","saving","saved","saved","sauver / économiser",0]
+];
+
+/* [expression anglaise, sens français, emoji] */
+const IDIOMS = [
+["a piece of cake","très facile, du gâteau","🍰"],
+["break the ice","briser la glace","🧊"],
+["under the weather","ne pas être en forme","🤒"],
+["once in a blue moon","très rarement","🌚"],
+["hit the road","prendre la route, partir","🛣️"],
+["cost an arm and a leg","coûter les yeux de la tête","💸"],
+["it's raining cats and dogs","il pleut des cordes","🌧️"],
+["piece of mind","la tranquillité d'esprit","🧘"],
+["call it a day","arrêter le travail pour aujourd'hui","🌇"],
+["on cloud nine","aux anges, très heureux","☁️"],
+["spill the beans","vendre la mèche","🫘"],
+["the ball is in your court","c'est à toi de jouer","🎾"],
+["bite the bullet","prendre son courage à deux mains","🦷"],
+["let the cat out of the bag","révéler un secret","🐱"],
+["get cold feet","avoir la trouille au dernier moment","🦶"],
+["pull someone's leg","faire marcher quelqu'un","🦵"],
+["speak of the devil","quand on parle du loup","😈"],
+["a blessing in disguise","un mal pour un bien","🎁"],
+["back to square one","retour à la case départ","🔙"],
+["beat around the bush","tourner autour du pot","🌳"],
+["cut to the chase","aller droit au but","✂️"],
+["give it a shot","tenter le coup","🎯"],
+["hang in there","tiens bon, courage","💪"],
+["no worries","pas de souci","😎"],
+["my bad","c'est ma faute","🙋"],
+["sounds good","ça me va","👍"],
+["take it easy","détends-toi","🧘"],
+["keep in touch","rester en contact","📞"],
+["make up your mind","décide-toi","🤔"],
+["it's up to you","c'est comme tu veux","🙌"],
+["never mind","laisse tomber","🤷"],
+["so far so good","jusqu'ici tout va bien","✅"],
+["better late than never","mieux vaut tard que jamais","⏰"],
+["the early bird catches the worm","l'avenir appartient à ceux qui se lèvent tôt","🐦"],
+["practice makes perfect","c'est en forgeant qu'on devient forgeron","🔨"],
+["actions speak louder than words","les actes valent mieux que les mots","💬"],
+["every cloud has a silver lining","après la pluie le beau temps","🌈"],
+["don't judge a book by its cover","l'habit ne fait pas le moine","📕"],
+["when pigs fly","quand les poules auront des dents","🐷"],
+["the more the merrier","plus on est de fous, plus on rit","🎉"]
+];
+
+/* CONNECTEURS — [anglais, français, groupe] */
+const CONNECTORS = [
+["and","et","Ajouter"],
+["also","aussi, également","Ajouter"],
+["too","aussi (en fin de phrase)","Ajouter"],
+["as well","également","Ajouter"],
+["in addition","de plus","Ajouter"],
+["moreover","de surcroît","Ajouter"],
+["furthermore","en outre","Ajouter"],
+["besides","d'ailleurs","Ajouter"],
+["but","mais","Opposer"],
+["however","cependant","Opposer"],
+["yet","pourtant","Opposer"],
+["although","bien que","Opposer"],
+["even though","même si","Opposer"],
+["on the other hand","d'un autre côté","Opposer"],
+["nevertheless","néanmoins","Opposer"],
+["instead","au lieu de cela","Opposer"],
+["whereas","tandis que","Opposer"],
+["because","parce que","Causer"],
+["since","puisque","Causer"],
+["as","comme, étant donné que","Causer"],
+["due to","en raison de","Causer"],
+["therefore","par conséquent","Conclure"],
+["so","donc, alors","Conclure"],
+["thus","ainsi","Conclure"],
+["as a result","en conséquence","Conclure"],
+["that's why","c'est pourquoi","Conclure"],
+["first","d'abord","Ordonner"],
+["then","ensuite","Ordonner"],
+["next","puis","Ordonner"],
+["after that","après cela","Ordonner"],
+["finally","enfin","Ordonner"],
+["meanwhile","pendant ce temps","Ordonner"],
+["for example","par exemple","Illustrer"],
+["for instance","par exemple","Illustrer"],
+["such as","tel que","Illustrer"],
+["in other words","autrement dit","Illustrer"],
+["in fact","en fait","Illustrer"],
+["of course","bien sûr","Nuancer"],
+["maybe","peut-être","Nuancer"],
+["actually","en réalité","Nuancer"],
+["by the way","au fait","Nuancer"],
+["anyway","de toute façon","Nuancer"],
+["in conclusion","en conclusion","Conclure"],
+["to sum up","pour résumer","Conclure"],
+["I think","je pense que","Opinion"],
+["I believe","je crois que","Opinion"],
+["in my opinion","à mon avis","Opinion"],
+["it seems that","il semble que","Opinion"],
+["I'm sure that","je suis sûr que","Opinion"]
+];
+
+/* ============ AUDIO (prononciation anglaise) ============ */
+let enVoice = null;
+function pickVoice(){
+  const vs = speechSynthesis.getVoices();
+  enVoice = vs.find(v=>/en[-_]GB/i.test(v.lang)) ||
+            vs.find(v=>/en[-_]US/i.test(v.lang)) ||
+            vs.find(v=>/^en/i.test(v.lang)) || null;
+}
+if('speechSynthesis' in window){ pickVoice(); speechSynthesis.onvoiceschanged = pickVoice; }
+function speak(text){
+  if(!('speechSynthesis' in window)) return;
+  speechSynthesis.cancel();
+  const u = new SpeechSynthesisUtterance(text);
+  u.lang = enVoice ? enVoice.lang : 'en-US';
+  if(enVoice) u.voice = enVoice;
+  u.rate = .92;
+  speechSynthesis.speak(u);
+}
+
+/* ============ ÉTAT ============ */
+let activeTab = 'vocab';
+let activeCat = 'Tous';
+let query = '';
+const norm = s => s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+
+/* aplatir le vocabulaire */
+const VOCAB_FLAT = [];
+for(const cat in VOCAB){ for(const w of VOCAB[cat]) VOCAB_FLAT.push({en:w[0], fr:w[1], emo:w[2], cat}); }
+const CATS = Object.keys(VOCAB);
+
+/* compteur total */
+document.getElementById('totalCount').textContent =
+  (VOCAB_FLAT.length + VERBS.length + IDIOMS.length + CONNECTORS.length) + ' mots';
+
+/* ============ ONGLETS ============ */
+const tabs = document.getElementById('tabs');
+tabs.addEventListener('click', e=>{
+  const b = e.target.closest('.tab'); if(!b) return;
+  activeTab = b.dataset.page;
+  [...tabs.children].forEach(t=>t.setAttribute('aria-selected', t===b));
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById('page-'+activeTab).classList.add('active');
+  const sb = document.getElementById('search');
+  sb.placeholder = activeTab==='verbs' ? 'Rechercher un verbe…'
+                 : activeTab==='expr' ? 'Rechercher une expression…'
+                 : activeTab==='cards' ? 'Recherche désactivée en mode cartes'
+                 : 'Rechercher un mot…';
+  render();
+});
+
+/* ============ RECHERCHE ============ */
+const searchEl = document.getElementById('search');
+const clearBtn = document.getElementById('clearBtn');
+searchEl.addEventListener('input', ()=>{
+  query = searchEl.value.trim();
+  clearBtn.classList.toggle('show', query.length>0);
+  render();
+});
+clearBtn.addEventListener('click', ()=>{ searchEl.value=''; query=''; clearBtn.classList.remove('show'); render(); searchEl.focus(); });
+
+/* ============ CHIPS CATÉGORIES ============ */
+const chipsEl = document.getElementById('chips');
+function buildChips(){
+  const all = ['Tous', ...CATS];
+  chipsEl.innerHTML = all.map(c=>
+    `<button class="chip" data-cat="${c}" aria-pressed="${c===activeCat}">${c}</button>`).join('');
+}
+chipsEl.addEventListener('click', e=>{
+  const c = e.target.closest('.chip'); if(!c) return;
+  activeCat = c.dataset.cat;
+  [...chipsEl.children].forEach(ch=>ch.setAttribute('aria-pressed', ch.dataset.cat===activeCat));
+  renderVocab();
+});
+
+/* ============ RENDU VOCAB ============ */
+function vocabCard(w){
+  return `<button class="wcard" onclick="speak('${esc(w.en)}')">
+    <span class="spk">🔊</span>
+    <span class="emo">${w.emo}</span>
+    <span class="en">${w.en}</span>
+    <span class="fr">${w.fr}</span>
+  </button>`;
+}
+const esc = s => s.replace(/'/g,"\\'").replace(/"/g,'&quot;');
+function renderVocab(){
+  const c = document.getElementById('vocabContent');
+  let list = VOCAB_FLAT;
+  if(activeCat!=='Tous') list = list.filter(w=>w.cat===activeCat);
+  if(query){ const q=norm(query); list = list.filter(w=>norm(w.en).includes(q)||norm(w.fr).includes(q)); }
+  if(!list.length){ c.innerHTML = emptyMsg('Aucun mot trouvé'); return; }
+  if(query || activeCat!=='Tous'){
+    c.innerHTML = `<div class="grid">${list.map(vocabCard).join('')}</div>`;
+  } else {
+    // regroupé par catégorie
+    c.innerHTML = CATS.map(cat=>{
+      const items = VOCAB[cat];
+      return `<div class="sect-h">${cat} <span style="font-family:var(--body);font-weight:700;font-size:12px;color:var(--faint);background:none">${items.length}</span></div>
+        <div class="grid">${items.map(w=>vocabCard({en:w[0],fr:w[1],emo:w[2]})).join('')}</div>`;
+    }).join('');
+  }
+}
+
+/* ============ CONJUGAISON ============ */
+const PRON = [['I','I'],['you','you'],['he / she / it','he'],['we','we'],['they','they']];
+function beForm(key,tense){
+  if(tense==='pres') return {I:'am',you:'are',he:'is',we:'are',they:'are'}[key];
+  if(tense==='past') return {I:'was',you:'were',he:'was',we:'were',they:'were'}[key];
+}
+function conjugate(v){
+  const [base,third,ing,past,pp] = v;
+  const isBe = base==='be';
+  const haveAux = k => k==='he' ? 'has':'have';
+  const beAux   = k => ({I:'am',you:'are',he:'is',we:'are',they:'are'}[k]);
+  const tenses = [
+    {name:'Présent simple', ex:'I '+base, rows:PRON.map(([lab,k])=>
+        [lab, isBe ? `<b>${beForm(k,'pres')}</b>` : (k==='he' ? `<b>${third}</b>` : `<b>${base}</b>`)])},
+    {name:'Présent continu', ex:'I am '+ing, rows:PRON.map(([lab,k])=>
+        [lab, `${beAux(k)} <b>${ing}</b>`])},
+    {name:'Prétérit (passé)', ex:'I '+past, rows:PRON.map(([lab,k])=>
+        [lab, isBe ? `<b>${beForm(k,'past')}</b>` : `<b>${past}</b>`])},
+    {name:'Present perfect', ex:'I have '+pp, rows:PRON.map(([lab,k])=>
+        [lab, `${haveAux(k)} <b>${pp}</b>`])},
+    {name:'Futur (will)', ex:'I will '+base, rows:PRON.map(([lab,k])=>
+        [lab, `will <b>${base}</b>`])},
+    {name:'Conditionnel (would)', ex:'I would '+base, rows:PRON.map(([lab,k])=>
+        [lab, `would <b>${base}</b>`])},
+  ];
+  return tenses;
+}
+const strip = h => h.replace(/<[^>]+>/g,'');
+function verbRow(v,i){
+  const [base,third,ing,past,pp,fr,irr] = v;
+  const tenses = conjugate(v);
+  const tables = tenses.map(t=>`
+    <div class="sect-h" style="margin:16px 2px 4px">${t.name}
+      <button class="tense-spk" onclick="event.stopPropagation();speak('${esc(strip(t.rows.map(r=>r[0].split(' ')[0]+' '+r[1]).join(', ')))}')">🔊</button>
+    </div>
+    <table class="ctable"><tbody>
+      ${t.rows.map(r=>`<tr><td class="pron">${r[0]}</td><td class="form">${r[1]}</td></tr>`).join('')}
+    </tbody></table>`).join('');
+  return `<div class="vrow" data-i="${i}">
+    <div class="vhead" onclick="toggleVerb(this)">
+      <span class="vb">${base}</span>
+      <span class="vfr">${fr}</span>
+      <span class="badge ${irr?'irr':'reg'}">${irr?'irrégulier':'régulier'}</span>
+      <span class="chev">▾</span>
+    </div>
+    <div class="vbody">
+      <div class="principal">
+        <div class="pp"><span>base</span><b>${base}</b></div>
+        <div class="pp"><span>il/elle</span><b>${third}</b></div>
+        <div class="pp"><span>-ing</span><b>${ing}</b></div>
+        <div class="pp"><span>prétérit</span><b>${past}</b></div>
+        <div class="pp"><span>participe</span><b>${pp}</b></div>
+        <button class="pp" style="cursor:pointer;background:var(--teal-soft);border-color:var(--teal)" onclick="event.stopPropagation();speak('${esc(base)}')">🔊 écouter</button>
+      </div>
+      ${tables}
+    </div>
+  </div>`;
+}
+function toggleVerb(h){ h.parentElement.classList.toggle('open'); }
+function renderVerbs(){
+  const c = document.getElementById('verbsContent');
+  let list = VERBS.map((v,i)=>({v,i}));
+  if(query){ const q=norm(query); list = list.filter(o=>norm(o.v[0]).includes(q)||norm(o.v[5]).includes(q)); }
+  if(!list.length){ c.innerHTML = emptyMsg('Aucun verbe trouvé'); return; }
+  c.innerHTML = list.map(o=>verbRow(o.v,o.i)).join('');
+}
+
+/* ============ EXPRESSIONS ============ */
+function exprCard(en,fr,emo){
+  return `<button class="ecard" onclick="speak('${esc(en)}')">
+    <span class="eemo">${emo}</span>
+    <span class="etxt"><span class="een">${en}</span><span class="efr">${fr}</span></span>
+    <span class="espk">🔊</span>
+  </button>`;
+}
+function renderExpr(){
+  const c = document.getElementById('exprContent');
+  const q = query?norm(query):null;
+  let idioms = IDIOMS, conns = CONNECTORS;
+  if(q){
+    idioms = idioms.filter(x=>norm(x[0]).includes(q)||norm(x[1]).includes(q));
+    conns = conns.filter(x=>norm(x[0]).includes(q)||norm(x[1]).includes(q));
+  }
+  let html = '';
+  if(idioms.length){
+    html += `<div class="sect-h">Expressions idiomatiques</div><div class="elist">`;
+    html += idioms.map(x=>exprCard(x[0],x[1],x[2])).join('');
+    html += `</div>`;
+  }
+  if(conns.length){
+    const groups = {};
+    conns.forEach(x=>{ (groups[x[2]] = groups[x[2]]||[]).push(x); });
+    html += `<div class="sect-h">Connecteurs de conversation</div>`;
+    for(const g in groups){
+      html += `<div class="sect-h" style="font-size:13px;color:var(--coral);margin:14px 2px 8px">${g}</div><div class="elist">`;
+      html += groups[g].map(x=>exprCard(x[0],x[1],'🔗')).join('');
+      html += `</div>`;
+    }
+  }
+  if(!html) html = emptyMsg('Aucune expression trouvée');
+  c.innerHTML = html;
+}
+
+/* ============ CARTES MÉMOIRE ============ */
+let deck=[], dPos=0, dKnown=0, flipped=false, dDir='en';
+function buildDeckOptions(){
+  const sel = document.getElementById('fcDeck');
+  let opts = `<option value="__all">⭐ Tout le vocabulaire (${VOCAB_FLAT.length})</option>`;
+  CATS.forEach(c=> opts += `<option value="cat:${c}">${c} (${VOCAB[c].length})</option>`);
+  opts += `<option value="__verbs">🔄 Les 100 verbes</option>`;
+  opts += `<option value="__idioms">💬 Expressions idiomatiques (${IDIOMS.length})</option>`;
+  sel.innerHTML = opts;
+}
+function makeDeck(val){
+  let arr;
+  if(val==='__all') arr = VOCAB_FLAT.map(w=>({emo:w.emo,en:w.en,fr:w.fr}));
+  else if(val==='__verbs') arr = VERBS.map(v=>({emo:'🔄',en:v[0],fr:v[5]}));
+  else if(val==='__idioms') arr = IDIOMS.map(x=>({emo:x[2],en:x[0],fr:x[1]}));
+  else { const cat=val.slice(4); arr = VOCAB[cat].map(w=>({emo:w[2],en:w[0],fr:w[1]})); }
+  for(let i=arr.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [arr[i],arr[j]]=[arr[j],arr[i]]; }
+  return arr;
+}
+document.getElementById('fcDir').addEventListener('click',e=>{
+  const b=e.target.closest('button'); if(!b) return;
+  dDir=b.dataset.dir;
+  [...e.currentTarget.children].forEach(x=>x.setAttribute('aria-pressed', x===b));
+});
+document.getElementById('fcStart').addEventListener('click', startDeck);
+function startDeck(){
+  deck = makeDeck(document.getElementById('fcDeck').value);
+  dPos=0; dKnown=0; flipped=false;
+  document.getElementById('fcSetup').style.display='none';
+  document.getElementById('fcDone').style.display='none';
+  document.getElementById('fcStage').classList.add('on');
+  showCard();
+}
+function showCard(){
+  if(dPos>=deck.length){ finishDeck(); return; }
+  flipped=false;
+  const card = deck[dPos];
+  document.getElementById('fcEmo').textContent = card.emo;
+  document.getElementById('fcMain').textContent = dDir==='en'?card.en:card.fr;
+  document.getElementById('fcSub').textContent = '';
+  document.getElementById('fcTip').textContent = 'Touche la carte pour retourner';
+  document.getElementById('fcPos').textContent = (dPos+1)+' / '+deck.length;
+  document.getElementById('fcKnown').textContent = '✅ '+dKnown;
+  document.getElementById('fcBar').style.width = (dPos/deck.length*100)+'%';
+  if(dDir==='en') speak(card.en);
+}
+function flipCard(){
+  const card = deck[dPos]; if(!card) return;
+  flipped=!flipped;
+  document.getElementById('fcSub').textContent = flipped ? (dDir==='en'?card.fr:card.en) : '';
+  document.getElementById('fcTip').textContent = flipped ? '' : 'Touche la carte pour retourner';
+  if(flipped && dDir==='fr') speak(card.en);
+}
+document.getElementById('flashcard').addEventListener('click', e=>{ if(e.target.id==='fcSpk') return; flipCard(); });
+document.getElementById('fcSpk').addEventListener('click', e=>{ e.stopPropagation(); const c=deck[dPos]; if(c) speak(c.en); });
+document.getElementById('fcKnowBtn').addEventListener('click', ()=>{ dKnown++; dPos++; showCard(); });
+document.getElementById('fcAgain').addEventListener('click', ()=>{ const c=deck[dPos]; deck.splice(dPos,1); deck.push(c); showCard(); });
+function finishDeck(){
+  document.getElementById('fcStage').classList.remove('on');
+  document.getElementById('fcDone').style.display='block';
+  document.getElementById('fcBar').style.width='100%';
+  document.getElementById('fcDoneMsg').textContent = `Tu as révisé ${deck.length} cartes. Bien joué !`;
+}
+document.getElementById('fcRestart').addEventListener('click', ()=>{
+  document.getElementById('fcDone').style.display='none';
+  document.getElementById('fcSetup').style.display='block';
+});
+
+/* ============ HELPERS RENDU ============ */
+function emptyMsg(t){ return `<div class="empty"><span class="be">🔍</span>${t}</div>`; }
+function render(){
+  document.getElementById('search').disabled = (activeTab==='cards');
+  if(activeTab==='vocab') renderVocab();
+  else if(activeTab==='verbs') renderVerbs();
+  else if(activeTab==='expr') renderExpr();
+}
+
+/* ============ INIT ============ */
+buildChips();
+buildDeckOptions();
+render();
+</script>
+</body>
+</html>
